@@ -1,20 +1,19 @@
 // import PropTypes from 'prop-types';
 
+import css from './ImageGallery.module.css';
+
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ items }) => {
-  return (
-    <ul className="gallery">
-      {items.map(({ id, webformatURL, largeImageURL, tags }) => (
-        <ImageGalleryItem
-          key={id}
-          webformatURL={webformatURL}
-          largeImageURL={largeImageURL}
-          tags={tags}
-        />
-      ))}
-    </ul>
-  );
+  const elements = items.map(({ id, webformatURL, largeImageURL, tags }) => (
+    <ImageGalleryItem
+      key={id}
+      webformatURL={webformatURL}
+      largeImageURL={largeImageURL}
+      tags={tags}
+    />
+  ));
+  return <ul className={css.ImageGallery}>{elements}</ul>;
 };
 
 // ImageGallery.propTypes = {

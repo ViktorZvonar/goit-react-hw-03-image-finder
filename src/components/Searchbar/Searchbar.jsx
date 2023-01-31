@@ -1,32 +1,37 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
 
+import css from './Searchbar.module.css';
+
 class Searchbar extends Component {
   state = {
-    inputValue: '',
+    search: '',
   };
 
   handleChange = event => {
-    this.setState({ inputValue: event.currentTarget.value });
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
   };
-
-  reset() {
-    this.setState({ inputValue: '' });
-  }
 
   handleSubmit = e => {
     e.preventDefault();
     const { onSubmit } = this.props;
-    onSubmit(this.state);
+    onSubmit({ ...this.state });
     this.reset();
   };
 
+  reset() {
+    this.setState({
+      search: '',
+    });
+  }
+
   render() {
-    const { inputValue } = this.state;
+    const { search } = this.state;
     const { handleChange, handleSubmit } = this;
 
     return (
-      <header className="searchbar">
+      <header className={css.Searchbar}>
         <form className="form" onSubmit={handleSubmit}>
           <button type="submit" className="button">
             <span className="button-label">Search</span>
@@ -34,7 +39,8 @@ class Searchbar extends Component {
 
           <input
             className="input"
-            value={inputValue}
+            value={search}
+            name="search"
             type="text"
             autoComplete="off"
             autoFocus

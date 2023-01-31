@@ -1,8 +1,10 @@
 import { Component } from 'react';
+import axios from 'axios';
+
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 
-import axios from 'axios';
+import css from './App.module.css';
 
 class App extends Component {
   state = {
@@ -16,6 +18,7 @@ class App extends Component {
 
   searchImg = ({ search }) => {
     this.setState({ search });
+    console.log();
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,14 +47,15 @@ class App extends Component {
     const { searchImg } = this;
     return (
       <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 40,
-          color: '#010101',
-        }}
+        className={css.App}
+        // style={{
+        //   height: '100vh',
+        //   display: 'flex',
+        //   justifyContent: 'center',
+        //   alignItems: 'center',
+        //   fontSize: 40,
+        //   color: '#010101',
+        // }}
       >
         <Searchbar onSubmit={searchImg} isLoading={loading} />
         <ImageGallery items={items} />
