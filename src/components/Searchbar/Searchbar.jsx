@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import { FaSearchengin } from 'react-icons/fa';
 
 import css from './Searchbar.module.css';
 
@@ -34,7 +35,9 @@ class Searchbar extends Component {
       <header className={css.Searchbar}>
         <form className={css.SearchForm} onSubmit={handleSubmit}>
           <button type="submit" className={css.SearchFormButton}>
-            <span className={css.SearchFormButtonLabel}>Search</span>
+            <span className={css.SearchFormButtonLabel}>
+              <FaSearchengin style={{ width: 25, height: 25 }} />
+            </span>
           </button>
 
           <input
