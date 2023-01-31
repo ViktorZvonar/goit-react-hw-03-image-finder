@@ -5,7 +5,7 @@ import css from './Searchbar.module.css';
 
 class Searchbar extends Component {
   state = {
-    search: '',
+    inputValue: '',
   };
 
   handleChange = event => {
@@ -22,12 +22,12 @@ class Searchbar extends Component {
 
   reset() {
     this.setState({
-      search: '',
+      inputValue: '',
     });
   }
 
   render() {
-    const { search } = this.state;
+    const { inputValue } = this.state;
     const { handleChange, handleSubmit } = this;
 
     return (
@@ -39,8 +39,8 @@ class Searchbar extends Component {
 
           <input
             className="input"
-            value={search}
-            name="search"
+            value={inputValue}
+            name="inputValue"
             type="text"
             autoComplete="off"
             autoFocus

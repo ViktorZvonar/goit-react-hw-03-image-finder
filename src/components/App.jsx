@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
+// import ImgAPI from '../shared/services/ImgAPI';
 
 import css from './App.module.css';
 
@@ -16,8 +18,12 @@ class App extends Component {
     error: null,
   };
 
-  searchImg = ({ search }) => {
-    this.setState({ search });
+  loadMore = () => {
+    this.setState(({ page }) => ({ page: page + 1 }));
+  };
+
+  searchImg = ({ inputValue }) => {
+    this.setState({ search: inputValue });
     console.log();
   };
 
@@ -32,6 +38,7 @@ class App extends Component {
         .then(({ data }) => {
           console.log(data.hits);
           this.setState({ items: [...this.state.items, ...data.hits] });
+          // this.setState({ items: data.hits });
 
           console.log(this.state);
         })
@@ -44,7 +51,7 @@ class App extends Component {
 
   render() {
     const { items, loading, error } = this.state;
-    const { searchImg } = this;
+    const { searchImg, loadMore } = this;
     return (
       <div
         className={css.App}
@@ -61,6 +68,9 @@ class App extends Component {
         <ImageGallery items={items} />
         {error && <p>Something goes wrong. Please try again later.</p>}
         {loading && <p>...loading</p>}
+        {Boolean(items.length) && (
+          <Button onLoadMore={loadMore} isLoading={loading} />
+        )}
       </div>
     );
   }
