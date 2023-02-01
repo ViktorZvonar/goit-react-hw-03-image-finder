@@ -17,20 +17,21 @@ class App extends Component {
     page: 1,
     loading: false,
     showModal: false,
-    currentLargeImageURL: '',
+    pickedLargeImageURL: '',
     error: null,
     tota: null,
   };
 
   showModal = url => {
     this.setState({
-      currentLargeImageURL: url,
+      pickedLargeImageURL: url,
+      showModal: true,
     });
   };
 
   toggleModal = () => {
     this.setState(() => ({
-      currentLargeImageURL: '',
+      pickedLargeImageURL: '',
     }));
   };
 
@@ -75,7 +76,7 @@ class App extends Component {
   };
 
   render() {
-    const { items, currentLargeImageURL, loading, error, total } = this.state;
+    const { items, pickedLargeImageURL, loading, error, total } = this.state;
     const { searchImg, loadMore, showModal, toggleModal } = this;
     return (
       <div className={css.App}>
@@ -87,9 +88,9 @@ class App extends Component {
           <Button onLoadMore={loadMore} />
         )}
 
-        {currentLargeImageURL && (
+        {pickedLargeImageURL && (
           <Modal onClose={toggleModal}>
-            <img src={currentLargeImageURL} alt="pict" />
+            <img src={pickedLargeImageURL} alt="pict" />
           </Modal>
         )}
       </div>
