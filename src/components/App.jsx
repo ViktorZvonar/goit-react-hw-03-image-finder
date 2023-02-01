@@ -39,7 +39,6 @@ class App extends Component {
   };
 
   loadMore = () => {
-    console.log(this.state);
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
@@ -61,7 +60,7 @@ class App extends Component {
       .then(({ hits, totalHits }) => {
         const totalPages = Math.round(totalHits / 12);
         if (page === totalPages) {
-          alert("You've reached the end of search results.");
+          alert('No more pictures or photos for you');
         }
 
         this.setState(({ items }) => ({
