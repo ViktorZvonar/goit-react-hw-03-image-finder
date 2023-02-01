@@ -1,12 +1,12 @@
 import { Component } from 'react';
-import axios from 'axios';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
 import Modal from 'shared/components/Modal';
-// import ImgAPI from '../shared/services/ImgAPI';
+
+import searchPicts from '../shared/services/ImgAPI';
 
 import css from './App.module.css';
 
@@ -19,6 +19,7 @@ class App extends Component {
     showModal: false,
     currentLargeImageURL: '',
     error: null,
+    tota: null,
   };
 
   showModal = url => {
@@ -44,33 +45,38 @@ class App extends Component {
     }));
   };
 
-  // async fetchImg() {
-  //   try {
-  //   } catch {}
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     const { search, page } = this.state;
     if (prevState.search !== search || prevState.page !== page) {
-      this.setState({ loading: true });
-      axios
-        .get(
-          `https://pixabay.com/api/?q=${search}&page=${page}&key=31880656-95c2fbbe9581639500b790cae&image_type=photo&orientation=horizontal&per_page=12`
-        )
-        .then(({ data }) => {
-          this.setState(({ items }) => ({
-            items: [...items, ...data.hits],
-          }));
-        })
-        .catch(error => {
-          this.setState({ error: error.message });
-        })
-        .finally(() => this.setState({ loading: false }));
+      this.fetchPicts();
     }
   }
 
+  fetchPicts = () => {
+    const { search, page } = this.state;
+
+    this.setState({ loading: true });
+
+    searchPicts(search, page)
+      .then(({ hits, totalHits }) => {
+        const totalPages = Math.round(totalHits / 12);
+        if (page === totalPages) {
+          alert("You've reached the end of search results.");
+        }
+
+        this.setState(({ items }) => ({
+          items: [...items, ...hits],
+          total: totalHits,
+        }));
+      })
+      .catch(error => {
+        this.setState({ error: error.message });
+      })
+      .finally(() => this.setState({ loading: false }));
+  };
+
   render() {
-    const { items, currentLargeImageURL, loading, error } = this.state;
+    const { items, currentLargeImageURL, loading, error, total } = this.state;
     const { searchImg, loadMore, showModal, toggleModal } = this;
     return (
       <div className={css.App}>
@@ -78,11 +84,13 @@ class App extends Component {
         <ImageGallery items={items} onClick={showModal} />
         {error && <p>Something goes wrong. Please try again later.</p>}
         {loading && <Loader />}
-        {Boolean(items.length) && <Button onLoadMore={loadMore} />}
+        {Boolean(items.length) && items.length < total && (
+          <Button onLoadMore={loadMore} />
+        )}
 
         {currentLargeImageURL && (
           <Modal onClose={toggleModal}>
-            <img src={currentLargeImageURL} alt="" />
+            <img src={currentLargeImageURL} alt="pict" />
           </Modal>
         )}
       </div>
