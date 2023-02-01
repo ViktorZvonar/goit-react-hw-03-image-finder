@@ -31,7 +31,8 @@ class App extends Component {
 
   toggleModal = () => {
     this.setState(() => ({
-      pickedLargeImageURL: '',
+      pickedLargeImageURL: null,
+      showModal: false,
     }));
   };
 
