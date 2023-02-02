@@ -19,7 +19,7 @@ class App extends Component {
     showModal: false,
     pickedLargeImageURL: '',
     error: null,
-    tota: null,
+    total: null,
   };
 
   showModal = url => {
@@ -37,6 +37,7 @@ class App extends Component {
   };
 
   searchImg = ({ inputValue }) => {
+    if (inputValue === this.state.search) return;
     this.setState({ search: inputValue, items: [], page: 1 });
   };
 

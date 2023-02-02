@@ -18,14 +18,14 @@ class Searchbar extends Component {
     e.preventDefault();
     const { onSubmit } = this.props;
     onSubmit({ ...this.state });
-    this.reset();
+    // this.reset();
   };
 
-  reset() {
-    this.setState({
-      inputValue: '',
-    });
-  }
+  // reset() {
+  //   this.setState({
+  //     inputValue: '',
+  //   });
+  // }
 
   render() {
     const { inputValue } = this.state;
